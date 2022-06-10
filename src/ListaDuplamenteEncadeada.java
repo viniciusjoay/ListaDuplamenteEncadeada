@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 public class ListaDuplamenteEncadeada<T> {
     Node<T> topo;
     Node<T> base;
@@ -33,7 +31,6 @@ public class ListaDuplamenteEncadeada<T> {
 
     public void insere(int pos, T informacao){
         if(!this.cheia()){
-            pos = Objects.checkIndex(pos, this.tamanho); //Checa se a posição informada é menor ou igual ao tamanho da lista.
             if (pos == this.tamanho) { //Checa se a posição é igual ao tamanho da lista, se for, adiciona o valor ao final da lista.
                 this.insere(informacao);
             }else{
@@ -51,12 +48,11 @@ public class ListaDuplamenteEncadeada<T> {
                     anterior.setProximo(no); //Se não estivermos inserindo na base (como no caso do nosso exemplo), então o proximo do nó anterior vai ser igual ao no (proximo.anterior = no)
                     proximo.setAnterior(no);// Ao final da função definimos que o anterior do proximo é igual ao no (anterior.proximo = no)
                 }
-                this.tamanho++; // e incrementamos o tamanho em 1 (tamanho += 1)
             }
         }
+        this.tamanho++;// e incrementamos o tamanho em 1 (tamanho += 1)
     }
     public Node<T> getNode(int pos) {
-        pos = Objects.checkIndex(pos, this.tamanho); //Checa se a posição informada é menor do que o tamanho da lista
         int meio = this.tamanho/2; //Encontra o meio da lista (tamanho/2)
         Node<T> aux;
 
@@ -117,18 +113,18 @@ public class ListaDuplamenteEncadeada<T> {
         node.setInformacao(informacao);
     }
 
-    public void imprimir(){
-        Node<T> aux = this.base;
-        System.out.print("(");
-        for (int i = 0; i < this.tamanho; i++) {
-            if(i == this.tamanho - 1){
-                System.out.print(aux.getInformacao());
-            }else{
-                System.out.print(aux.getInformacao() + ", ");
-            }
-            aux = aux.getProximo();
-        }
-        System.out.println(")");
+    @Override
+    public String toString() {
+       var text = "[ ";
+       for(Node<T> node = base; node != null; node = node.getProximo()){
+           text += node.informacao + " ";
+       }
+       text += "]";
+       return text;
+    }
+
+    public int getTamanho() {
+        return tamanho;
     }
 
 }
